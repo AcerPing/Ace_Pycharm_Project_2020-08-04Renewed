@@ -1,0 +1,6 @@
+print("decision\nmaking",end="")
+print("\t","acegogogog",end="")
+print("\t","奇萊東稜")
+print(len("decision\nmaking"))
+print("連續四天爬山奇萊東稜")
+print("連續四天爬山\b奇萊東稜")
