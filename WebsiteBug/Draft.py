@@ -12,7 +12,3 @@ print(H1.Name)
 print(H1.Number)
 print(H1.Email)
 print(H1.all())
-
-
-
-
