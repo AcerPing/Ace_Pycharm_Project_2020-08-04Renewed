@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>留言板（回覧）－何哲平</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="static\css\bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="static\js\bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <h1>留言板（看板）－何哲平</h1>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <form class="form-horizontal" role="form" action="/post" methods="POST">
+                      <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">姓名（名前）</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="name" placeholder="請輸入您的名字（お名前は）" name="name">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="comment" class="col-sm-2 control-label">留言內容（コメント）</label>
+                        <div class="col-sm-10">
+                          <textarea class="form-control" rows="3" name="comment" id="comment"></textarea>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                          <button type="submit" class="btn btn-primary">發布（送信する）</button>
+                        </div>
+                      </div>
+
+
+                    </form>
+
+            </div>
+        </div>
+        <hr/>
+        <div class="row">
+            <h1>留言列表</h1>
+
+            {% if list %}
+            {% for item in list %}
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                  <p>訊息編號（番号）：{{item[(0)]}}</p>
+                  <p>姓名（名前）：{{item[(1)]}}</p>
+              </div>
+              <div class="panel-body">
+                <p class="text-muted">Time/時間/日時：{{item[(3)]|datetime_fmt}}</p>
+                <p class="text-primary">内容（ないよう）：</p>
+                <p class="text-primary">{{item[(2)]|nl2br}}</p>
+              </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <blockquote>
+                <p class="text-danger">暫無數據（暫くなんでもないです）</p>
+            </blockquote>
+            {% endif %}
+
+        <hr/>
+        <form class="form-horizontal" role="form" action="/post" methods="POST">
+            <hr/>
+            <hr/>
+            <hr/>
+            <div class="form-group">
+                <label for="modified_number" class="col-sm-2 control-label">
+                    更新留言資訊的號碼（修正の番号）
+                </label>
+                <div class="col-sm-10">
+                    <input type="int" class="form-control" id="modified_number" placeholder="請輸入號碼（どっち）" name="modified_number">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="modified_name" class="col-sm-2 control-label">
+                    姓名（名前）
+                </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="modified_name" placeholder="請輸入您的名字（お名前は）" name="modified_name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="modified_comment" class="col-sm-2 control-label">
+                    內容（ここに直してください）
+                </label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" rows="3" name="modified_comment" id="modified_comment"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default btn-lg" >修正（改めて）</button>
+            </div>
+            </div>
+
+            <hr/>
+            <hr/>
+            <div class="form-group">
+                <label for="delete_number" class="col-sm-2 control-label">刪除（削除する）</label>
+                <div class="col-sm-10">
+                    <input type="int" class="form-control" id="delete_number" placeholder="請輸入訊息號碼（番号を入力してください）" name="delete_number">
+                 </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-warning btn-lg pull-right container-footer" >刪除（削除する）</button>
+                </div>
+            </div>
+        </form>
+
+        </div>
+    </body>
+</html>
+
+
+

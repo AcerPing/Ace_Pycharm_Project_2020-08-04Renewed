@@ -1,0 +1,9 @@
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="static\js\bootstrap.min.js"></script>
+
+何哲平
+歡迎使用我們的留言系統~~ようこそ～～
+
+            <button class="btn btn-warning pull-right" data-toggle="modal" data-target="#blockModel">
+                刪除留言
+            </button>
