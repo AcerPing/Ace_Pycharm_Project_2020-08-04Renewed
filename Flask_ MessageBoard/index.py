@@ -23,9 +23,7 @@ def post():
 
     #方法一
     name = request.args.get("name","匿名")
-    name = name.replace('',"匿名（隠し子）")
     comment = request.args.get("comment","暫無留言")
-    comment = comment.replace('',"暫無留言（無し）")
 
     #方法二
     # name = request.values.get("name","匿名")
