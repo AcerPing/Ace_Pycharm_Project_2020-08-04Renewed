@@ -23,6 +23,7 @@ def post():
 
     #方法一
     name = request.args.get("name","匿名")
+    
     comment = request.args.get("comment","暫無留言")
 
     #方法二
