@@ -101,6 +101,7 @@ def load_data():
     return list
 '''
 
+# 請教助教如何換頁!!!
 def load_data_page(page=1):
     conn = pymysql.connect(host="localhost", user="root", db="block", charset="utf8", port=None)
     cur = conn.cursor()  # 取得指令操作變數
