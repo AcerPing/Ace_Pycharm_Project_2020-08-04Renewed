@@ -137,10 +137,3 @@ def nl2br(s):
 # 伺服器啟動，執行flask項目
 if __name__ == "__main__":
     app.run(debug=True)
-
-'''
-
-# TODO: heroku專用，偵測heroku給我們的port號
-import os
-app.run(host='0.0.0.0', port=os.environ['PORT'])
-'''

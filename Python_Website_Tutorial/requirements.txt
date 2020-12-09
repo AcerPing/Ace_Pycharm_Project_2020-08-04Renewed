@@ -1,5 +1,6 @@
 flask
 flask-bootstrap
+flask-bcrypt
 flask-sqlalchemy
 flask-wtf
 wtforms
