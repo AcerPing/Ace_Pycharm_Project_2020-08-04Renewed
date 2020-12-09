@@ -13,6 +13,7 @@ app = Flask(__name__)
 @app.route('/')
 def hello():
     page = request.args.get('page', default=1, type=int)
+    print("請求方法", request.method)
     print("頁數：",page)
     list = load_data_page(page)
     print("資料：",list) #顯示MySQL DataBase完整資訊，方便修正
@@ -135,8 +136,8 @@ def nl2br(s):
 
 # 伺服器啟動，執行flask項目
 if __name__ == "__main__":
-    app.run()
-# host = "0.0.0.0"
+    app.run(debug=True)
+
 '''
 
 # TODO: heroku專用，偵測heroku給我們的port號

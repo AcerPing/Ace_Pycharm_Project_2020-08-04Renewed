@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% if title %}
+    <title>{{title}}</title>
+    {% else %}
+    <title>None Title</title>
+    {% endif %}
+</head>
+<body>
+    {% include "navbar.html" %}
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
