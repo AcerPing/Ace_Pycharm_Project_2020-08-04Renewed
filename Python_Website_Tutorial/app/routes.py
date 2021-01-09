@@ -1,7 +1,7 @@
 from flask import render_template,flash,redirect,url_for,request
 from flask_login import login_user, login_required, current_user, logout_user
 from app import app,bcrypt,db
-from app.forms import RegisterForm,LoginForm
+from app.forms import RegisterForm, LoginForm, PasswordResetRequestForm
 from app.models import User
 
 @app.route('/') #函式的裝飾(Decorator):以函式為基礎，提供附加的功能
@@ -23,7 +23,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash('Congratulations, Registration Success',category='success')
-        return redirect(url_for('index'))
+        return redirect(url_for('login'))
     return render_template("register.html", form=form)
 
 
@@ -57,6 +57,14 @@ def login():
     return render_template('login.html',form=form)
 
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+@app.route('/Send_Password_Reset_Request',methods=["Get","Post"])
+def Send_Password_Reset_Request():
+    if current_user.is_authenticated:
+        return  redirect(url_for('index'))
+    form = PasswordResetRequestForm()
+    return render_template('Send_Password_Reset_Request.html', form=form)
