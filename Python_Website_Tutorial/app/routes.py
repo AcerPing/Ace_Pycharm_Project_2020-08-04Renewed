@@ -1,7 +1,8 @@
 from flask import render_template,flash,redirect,url_for,request
 from flask_login import login_user, login_required, current_user, logout_user
 from app import app,bcrypt,db
-from app.forms import RegisterForm, LoginForm, PasswordResetRequestForm
+from app.forms import RegisterForm, LoginForm, PasswordResetRequestForm, ResetPasswordForm
+from app.email import send_reset_password_mail
 from app.models import User
 
 @app.route('/') #函式的裝飾(Decorator):以函式為基礎，提供附加的功能
@@ -67,4 +68,18 @@ def Send_Password_Reset_Request():
     if current_user.is_authenticated:
         return  redirect(url_for('index'))
     form = PasswordResetRequestForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        user = User.query.filter_by(email=email).first()
+        token = user.generate_reset_password_token()
+        send_reset_password_mail(user, token)
+        flash('Password Reset Request E-mail has been sent out, Please Check Your Mail Box.', category='info')
     return render_template('Send_Password_Reset_Request.html', form=form)
+
+@app.route('/reset_password', methods=["Get","Post"])
+def reset_password():
+    if current_user.is_authenticated:
+        return  redirect(url_for('index'))
+    form = ResetPasswordForm()
+    return render_template('reset_password_mail.html', form=form)
+    pass
