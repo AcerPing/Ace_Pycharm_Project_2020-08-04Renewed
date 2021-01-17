@@ -29,15 +29,22 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember')
     submit = SubmitField('Sign In')
 
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user is None:
+            raise ValidationError('User does not exist')
+
 class PasswordResetRequestForm(FlaskForm):
+
     email = StringField("Email", validators=[DataRequired(), Email()])
     submit = SubmitField('Send Out')
+
     def validate_email(self,email):
         user = User.query.filter_by(email=email.data).first()
         if not user: #判斷user是否存在
             raise ValidationError("Email not exists. Please Register.")
 
 class ResetPasswordForm(FlaskForm):
-    password = PasswordField("Password",validators=[DataRequired(),Length(min=8,max=20)])
+    password = PasswordField("Password",validators=[DataRequired(),Length(min=8, max=20)])
     confirm = PasswordField("Repeat Password",validators=[DataRequired(),EqualTo("password")])
     submit = SubmitField('Reset Password')
