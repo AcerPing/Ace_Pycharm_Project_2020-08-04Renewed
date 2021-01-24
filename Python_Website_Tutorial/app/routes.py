@@ -1,14 +1,21 @@
 from flask import render_template,flash,redirect,url_for,request
 from flask_login import login_user, login_required, current_user, logout_user
 from app import app,bcrypt,db
-from app.forms import RegisterForm, LoginForm, PasswordResetRequestForm, ResetPasswordForm
+from app.forms import RegisterForm, LoginForm, PasswordResetRequestForm, ResetPasswordForm, PostTextForm
 from app.email import send_reset_password_mail
-from app.models import User
+from app.models import User, Post
 
-@app.route('/') #函式的裝飾(Decorator):以函式為基礎，提供附加的功能
+@app.route('/', methods=["Get","Post"]) #函式的裝飾(Decorator):以函式為基礎，提供附加的功能
 @login_required
 def index(): #用來回應網站首頁連線的函式；用來回應路徑 / 的處理函式
-    return render_template("bootstrap.html")  # 回傳網站首頁內容
+    form = PostTextForm()
+    if form.validate_on_submit():
+        body = form.text.data
+        post = Post(body=body)
+        current_user.posts.append(post)
+        db.session.commit()
+        flash('You have posted a new message.', category='success')
+    return render_template("bootstrap.html", form=form)  # 回傳網站首頁內容
 
 @app.route('/register',methods=["Get","Post"])
 def register():

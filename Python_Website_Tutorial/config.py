@@ -13,7 +13,7 @@ class Config(object):
     RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY') or 'A-VERY-LONG-SECRET-KEY'
 
     # Database configuration
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'app_20210123.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Flask Gamil Config
