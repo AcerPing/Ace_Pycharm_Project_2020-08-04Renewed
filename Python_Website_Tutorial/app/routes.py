@@ -15,7 +15,11 @@ def index(): #用來回應網站首頁連線的函式；用來回應路徑 / 的
         current_user.posts.append(post)
         db.session.commit()
         flash('You have posted a new message.', category='success')
-    return render_template("bootstrap.html", form=form)  # 回傳網站首頁內容
+    n_followers = len(current_user.followers)
+    n_followed = len(current_user.followed)
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    return render_template("bootstrap.html", form=form, posts=posts,
+                           n_followers=n_followers, n_followed=n_followed)  # 回傳網站首頁內容
 
 @app.route('/register',methods=["Get","Post"])
 def register():

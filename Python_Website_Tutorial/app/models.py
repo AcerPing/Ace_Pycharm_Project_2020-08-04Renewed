@@ -22,6 +22,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    avatar_img = db.Column(db.String(120), default='\\static\\asset\\default_avatar.jpg', nullable=False)
     posts = db.relationship('Post', backref=db.backref('author', lazy=True))
     followed = db.relationship('User', secondary=followers,
                                primaryjoin=(followers.c.follower_id == id),
