@@ -1,20 +1,9 @@
 from flask import render_template,flash,redirect,url_for,request
 from flask_login import login_user, login_required, current_user, logout_user
-import os
-from werkzeug.utils import secure_filename
-
 from app import app,bcrypt,db
 from app.forms import RegisterForm, LoginForm, PasswordResetRequestForm, ResetPasswordForm, PostTextForm
-from app.forms import *
 from app.email import send_reset_password_mail
 from app.models import User, Post
-
-# ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/', methods=["Get","Post"]) #函式的裝飾(Decorator):以函式為基礎，提供附加的功能
 @login_required
@@ -36,63 +25,6 @@ def index(): #用來回應網站首頁連線的函式；用來回應路徑 / 的
 
     return render_template("bootstrap.html", form=form, posts=posts,
                            n_followers=n_followers, n_followed=n_followed)  # 回傳網站首頁內容
-
-@app.route('/user_page/<username>')
-@login_required
-def user_page(username):
-    user = User.query.filter_by(username=username).first()
-    if user:
-        page = request.args.get('page', 1, type=int)
-        posts = Post.query.filter_by(user_id=user.id).order_by(Post.timestamp.desc()).paginate(page, 5, False)
-        return render_template('user_page.html', user=user, posts=posts)
-    else:
-        return '404'
-
-@app.route('/follow/<username>')
-@login_required
-def follow(username):
-    user = User.query.filter_by(username=username).first()
-    if user:
-        current_user.follow(user)
-        db.session.commit()
-        page = request.args.get('page', 1, type=int)
-        posts = Post.query.filter_by(user_id=user.id).order_by(Post.timestamp.desc()).paginate(page, 5, False)
-        return render_template('user_page.html', user=user, posts=posts)
-    else:
-        return '404'
-
-@app.route('/unfollow/<username>')
-@login_required
-def unfollow(username):
-    user = User.query.filter_by(username=username).first()
-    if user:
-        current_user.unfollow(user)
-        db.session.commit()
-        page = request.args.get('page', 1, type=int)
-        posts = Post.query.filter_by(user_id=user.id).order_by(Post.timestamp.desc()).paginate(page, 5, False)
-        return render_template('user_page.html', user=user, posts=posts)
-    else:
-        return '404'
-
-
-@app.route('/edit_profile', methods=["Get","Post"])
-def edit_profile():
-    form = UploadPhotoForm()
-    if form.validate_on_submit():
-        f = form.photo.data
-        if f.filename == '': #若文件名是空值 → 代表未選擇文件
-            flash('No selected file', category='danger')
-            return render_template('edit_profile.html', form=form)
-        if f and allowed_file(f.filename): #若為圖片文件的格式
-            #文件存儲操作
-            filename = secure_filename(f.filename) #基於數據安全，保障程序安全，避免中病毒
-            f.save(os.path.join('app', 'static', 'asset', filename))
-            #數據庫存儲位置
-            current_user.avatar_img = '/static/asset/' + filename
-            db.session.commit()
-            return redirect(url_for('user_page', username=current_user.username))
-    return render_template('edit_profile.html', form=form)
-
 
 @app.route('/register',methods=["Get","Post"])
 def register():
