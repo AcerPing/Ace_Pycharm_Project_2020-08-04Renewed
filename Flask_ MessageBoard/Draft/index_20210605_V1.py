@@ -16,16 +16,16 @@ def hello():
     print("請求方法", request.method)
     print("頁數：",page)
     list = load_data_page(page)
-    # print("資料：",list) #顯示MySQL DataBase完整資訊，方便修正
+    print("資料：",list) #顯示MySQL DataBase完整資訊，方便修正
     return render_template("index.html", list=list)
 
-'''
-# 原本利用'GET'方法
-@app.route("/post", methods=['GET']) #['GET', 'POST']
+# 方法
+@app.route("/post", methods=['GET', 'POST'])
 def post():
     # 方法一
     name = request.args.get("name", "匿名")
     comment = request.args.get("comment", "暫無留言")
+
     # 方法二
     # name = request.values.get("name","匿名")
     # comment = request.values.get("comment","暫無留言")
@@ -33,6 +33,7 @@ def post():
     modified_number = request.values.get("modified_number", None)
     modified_name = request.values.get("modified_name", None)
     modified_comment = request.values.get("modified_comment", None)
+
     # 方法三
     # name = request.form.get("name","匿名")
     # comment = request.form.get("comment","暫無留言")
@@ -48,42 +49,6 @@ def post():
     elif modified_number != None and modified_number != '':
         change_message(modified_number, modified_name, modified_comment)
     else:
-        save_time(name, comment, create_time)
-
-    return redirect('/')
-'''
-
-
-# 改為利用'POST'方法
-@app.route("/post", methods=['POST'])#POST一定要用request.form
-def post():
-    # POST一定要用request.form
-
-    #方法一 request.form["name"]
-    # name = request.form["name"]
-    # comment = request.form["comment"]
-    # delete_number = request.form["delete_number"]
-    # modified_number = request.form["modified_number"]
-    # modified_name = request.form["modified_name"]
-    # modified_comment = request.form["modified_comment"]
-
-    #方法二 request.form.get("name")
-    name = request.form.get("name")
-    comment = request.form.get("comment")
-    delete_number = request.form.get("delete_number")
-    modified_number = request.form.get("modified_number")
-    modified_name = request.form.get("modified_name")
-    modified_comment = request.form.get("modified_comment")
-
-    create_time = datetime.now()
-
-    if delete_number != None and str(delete_number).strip() != '':
-        delete_message(delete_number)
-    elif modified_number != None and str(modified_number).strip() != '':
-        change_message(modified_number, modified_name, modified_comment)
-    else:
-        if str(name).strip() == '': name = "匿名"
-        if str(comment).strip() == '': comment = "暫無留言"
         save_time(name, comment, create_time)
 
     return redirect('/')
