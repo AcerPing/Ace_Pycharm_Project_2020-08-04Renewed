@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block title %}
+            {% if title %}
+            <title>{{title}} | Flask App</title>
+            {% else %}
+            <title>Flask App</title>
+            {% endif %}
+        {% endblock %}
+    </head>
+    <body>
+        <h1> Main Menu </h1>
+        <h2>超連結：連結到另一個網頁</h2>
+        <h3>《中国人民解放军进行曲》</h3>
+        <a href="https://www.youtube.com/watch?v=wL25h_xqIzY"
+            class="btn btn-default" role='button'> 中国人民解放军进行曲 </a>
+        <br/>
+        <br/>
+        <br/>
+    </body>
+</html>

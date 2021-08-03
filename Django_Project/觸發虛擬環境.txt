@@ -1,0 +1,23 @@
+<觸發虛擬環境>
+第一步
+cd py3env\Scripts
+
+第二步
+activate
+
+<離開虛擬環境>
+deactivate
+
+<啟動伺服器>
+python manage.py runserver
+
+<建立migrations腳本>
+python manage.py makemigrations
+
+<執行腳本>
+python manage.py migrate app
+
+
+<退回特定版本>
+python manage.py migrate app [migrate version]
+
