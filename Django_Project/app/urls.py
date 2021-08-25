@@ -24,17 +24,18 @@ $ : 以什麼為結尾
 \d : 數字
 () : 擷取符合的pattern
 '''
-from django.conf.urls import url, include
+from django.conf.urls import url
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
-from . import views
+from app import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    #url(r'^hello/', 'app.views.hello'),
-    #url(r'^hello/', views.hello),
-    #url(r'^$', views.frontpage),
-    url(r'^', include('app.urls')),
-    url(r'^accounts/login', auth_views.login),
-    url(r'^accounts/logout', views.logout),
-]
+    # url(r'^admin/', admin.site.urls),
+    # #url(r'^hello/', 'app.views.hello'),
+    # url(r'^hello/', views.hello),
+    url(r'^$', views.frontpage),
+    url(r'^settings$', views.settings),
+    url(r'^add_category$', views.addCategory),
+    url(r'^delete_category/(?P<category>\w+)', views.deleteCategory),
+    url(r'^add_record$', views.addRecord),
+    url(r'^delete_record$', views.deleteRecord),
+    ]
