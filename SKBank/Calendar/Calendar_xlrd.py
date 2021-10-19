@@ -1,10 +1,16 @@
 import os
-import xlrd
+import sys
 import time
+import traceback
+import xlrd
+
 # import datetime
 
 #Custom Function Defination
 def ErrorMessenger(e, fileName='', lineNum=0, funcName='', Custom_Err_Msg=''):
+    '''
+    發生錯誤時，處理錯誤的函式
+    '''
     error_class = e.__class__.__name__ #取得錯誤類型
     detail = e.args[0] #取得詳細內容
     if fileName == '' and funcName == '':
@@ -21,6 +27,9 @@ def ErrorMessenger(e, fileName='', lineNum=0, funcName='', Custom_Err_Msg=''):
 
 #數字轉換
 def ConvertNum(s):
+    '''
+    讀取Excel時，數字會自動轉為小數，利用此函式再轉換為整數
+    '''
     try:
         s = str(float(str(s).strip().replace(',', '')))
         if s.count('.') == 0:
@@ -39,6 +48,9 @@ def ConvertNum(s):
         return s
 
 def ExcelRead(filename, TargetSheetName, key_column):
+    '''
+    讀取Excel表格
+    '''
     ModuleObj = {'Status':'fail',
                  'Custom_Err_Msg': '',
                  'SourceExcelList': [],
@@ -134,15 +146,21 @@ def ExcelRead(filename, TargetSheetName, key_column):
         ModuleObj['Error']['e_funcName'] = lastCallStack[2] #取得發生的函數名稱
         return ModuleObj
 
-
+# 主函式
 def main():
+    '''
+    1. 當天是否為上班日
+    2. 上一次上班日是什麼時候?
+    3. 下一次上班日是什麼時候?
+    '''
     # 參數設定
+    # TODO: 使用者輸入執行模式
     runmode = ''
     while runmode == '' or (len(runmode) != 1 and (runmode != '1' and runmode != '2' and runmode != '3')): 
         runmode = input('請輸入執行模式，\n1為查詢當天是否為工作日，2為查詢前一個工作日，3為查詢後一個工作日，\n輸入模式：')
     print('執行模式: ' + str(runmode))
     runmode = int(runmode) # 將runmode轉換為數字型式，後續傳如def
-
+    # TODO: 設定讀取檔案的位置及表單資訊
     File_Directory = r'D:\哲平\新光銀行\RPA\Calendar'
     File_Name = r'工作日查詢.xls'
     FilePath = os.path.join(File_Directory, File_Name)
@@ -184,23 +202,23 @@ def main():
         print('Process Error, Process End. \n\n Error Details:\n' + Custom_Err_Msg)
         raise Exception
 
-    today = time.strftime("%Y/%m/%d", time.localtime())
+    today = time.strftime("%Y/%m/%d", time.localtime()) # 今天日期
 
-    # print(Excel_todo_list[0]) # 差2
+    # print(Excel_todo_list[0]) # 與Excel檔案列號差2
+    # print (i + 2) 
+    # print(Excel_todo_list[i]) 
+    # print(ConvertNum(Excel_todo_list[i][key_column_id['營業']])) 
     CrntRow = 0
     for i in range(0, len(Excel_todo_list)):
         CrntRow = i + 1
         # 
-        if Excel_todo_list[i][key_column_id['本日']] == today: break
+        if Excel_todo_list[i][key_column_id['本日']] == today: break #抓取今日日期的index
     else: 
         Custom_Err_Msg = '今天日期沒有在Excel Report'
         print('Excel Error')
         print('Process Error, Process End. \n\n Error Details:\n' + Custom_Err_Msg)
         raise Exception
     
-    # print (i + 2)
-    # print(Excel_todo_list[i]) 
-    # print(ConvertNum(Excel_todo_list[i][key_column_id['營業']])) 
     if ConvertNum(Excel_todo_list[i][key_column_id['營業']]) != 1: 
         print('不用上班')
         Whether_Work = '不用上班'
@@ -208,8 +226,10 @@ def main():
         print('Go to Work.')
         Whether_Work = 'Go to Work.'
 
+    # TODO: 1. 當天是否為上班日
     if runmode == 1 : return Whether_Work, None
     
+    # TODO: 2. 上一次上班日是什麼時候?
     elif runmode == 2 :
         for ii in range(i-1, 0, -1):
             if ConvertNum(Excel_todo_list[ii][key_column_id['營業']]) ==  1 : 
@@ -222,8 +242,9 @@ def main():
             raise Exception
         return Whether_Work, PreviousWorkingDay
     
+    # TODO: 3. 下一次上班日是什麼時候?
     elif runmode == 3 :
-        # print(Excel_todo_list[len(Excel_todo_list)-1])
+        # print(Excel_todo_list[len(Excel_todo_list)-1]) # 若用len(Excel_todo_list)會發生out of range 的錯誤
         # print(len(Excel_todo_list))
         for ii in range(i+1, len(Excel_todo_list)-1):
             if ConvertNum(Excel_todo_list[ii][key_column_id['營業']]) ==  1 : 
