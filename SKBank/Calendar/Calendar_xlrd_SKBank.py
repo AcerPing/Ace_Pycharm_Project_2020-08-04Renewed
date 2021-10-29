@@ -162,7 +162,7 @@ def main(runmode = '2'):
     print('執行模式: ' + str(runmode))
     runmode = int(runmode) # 將runmode轉換為數字型式，後續傳如def
     # TODO: 設定讀取檔案的位置及表單資訊
-    File_Directory = r'D:\哲平\新光銀行\RPA\Calendar' #D:\何哲平\RPA\工作日查詢
+    File_Directory = r'D:\何哲平\RPA\工作日查詢' #D:\何哲平\RPA\工作日查詢
     File_Name = r'工作日查詢.xls'
     FilePath = os.path.join(File_Directory, File_Name)
     SourceFilePath_Excel = FilePath
