@@ -154,13 +154,7 @@ def main(runmode = '2'):
     3. 下一次上班日是什麼時候?
     '''
     # 參數設定
-    # TODO: 使用者輸入執行模式
-    # runmode = ''
-    # runmode = '1'
-    while runmode == '' or (len(runmode) != 1 and (runmode != '1' and runmode != '2' and runmode != '3')): 
-        runmode = input('請輸入執行模式，\n1為查詢當天是否為工作日，2為查詢前一個工作日，3為查詢後一個工作日，\n輸入模式：')
-    print('執行模式: ' + str(runmode))
-    runmode = int(runmode) # 將runmode轉換為數字型式，後續傳如def
+
     # TODO: 設定讀取檔案的位置及表單資訊
     File_Directory = r'D:\何哲平\RPA\工作日查詢' #D:\何哲平\RPA\工作日查詢
     File_Name = r'工作日查詢.xls'
@@ -209,10 +203,7 @@ def main(runmode = '2'):
     # print (i + 2) 
     # print(Excel_todo_list[i]) 
     # print(ConvertNum(Excel_todo_list[i][key_column_id['營業']])) 
-    CrntRow = 0
     for i in range(0, len(Excel_todo_list)):
-        CrntRow = i + 1
-        # 
         if Excel_todo_list[i][key_column_id['本日']] == today: break #抓取今日日期的index
     else: 
         Custom_Err_Msg = '今天日期沒有在Excel Report'
@@ -228,42 +219,44 @@ def main(runmode = '2'):
         Whether_Work = 'Go to Work.'
 
     # TODO: 1. 當天是否為上班日
-    if runmode == 1 : return Whether_Work, None
+    file=open("今天是否上班.txt",mode="w",encoding="utf-8") #開啟檔案
+    file.write(Whether_Work+"\n") #撰寫檔案
+    file.close() #關閉檔案
     
     # TODO: 2. 上一次上班日是什麼時候?
-    elif runmode == 2 :
-        for ii in range(i-1, 0, -1):
-            if ConvertNum(Excel_todo_list[ii][key_column_id['營業']]) ==  1 : 
-                PreviousWorkingDay = Excel_todo_list[ii][key_column_id['本日']]
-                break
-        else: 
-            Custom_Err_Msg = '沒有上一個營業日'
-            print('Excel Error')
-            print('Process Error, Process End. \n\n Error Details:\n' + Custom_Err_Msg)
-            raise Exception('Excel Error')
-        return Whether_Work, PreviousWorkingDay
+    for ii in range(i-1, 0, -1):
+        if ConvertNum(Excel_todo_list[ii][key_column_id['營業']]) ==  1 : 
+            PreviousWorkingDay = Excel_todo_list[ii][key_column_id['本日']]
+            break
+    else: 
+        Custom_Err_Msg = '沒有上一個營業日'
+        print('Excel Error')
+        print('Process Error, Process End. \n\n Error Details:\n' + Custom_Err_Msg)
+        raise Exception('Excel Error')
+    file=open("上一個營業日.txt",mode="w",encoding="utf-8") #開啟檔案
+    file.write(PreviousWorkingDay+"\n") #撰寫檔案
+    file.close() #關閉檔案
     
     # TODO: 3. 下一次上班日是什麼時候?
-    elif runmode == 3 :
-        # print(Excel_todo_list[len(Excel_todo_list)-1]) # 若用len(Excel_todo_list)會發生out of range 的錯誤
-        # print(len(Excel_todo_list))
-        for ii in range(i+1, len(Excel_todo_list)-1):
-            if ConvertNum(Excel_todo_list[ii][key_column_id['營業']]) ==  1 : 
-                NextWorkingDay = Excel_todo_list[ii][key_column_id['本日']]
-                break
-        else: 
-            Custom_Err_Msg = '沒有下一個營業日'
-            print('Excel Error')
-            print('Process Error, Process End. \n\n Error Details:\n' + Custom_Err_Msg)
-            raise Exception('Excel Error')
-        return Whether_Work, NextWorkingDay
+    for ii in range(i+1, len(Excel_todo_list)-1):
+        if ConvertNum(Excel_todo_list[ii][key_column_id['營業']]) ==  1 : 
+            NextWorkingDay = Excel_todo_list[ii][key_column_id['本日']]
+            break
+    else: 
+        Custom_Err_Msg = '沒有下一個營業日'
+        print('Excel Error')
+        print('Process Error, Process End. \n\n Error Details:\n' + Custom_Err_Msg)
+        raise Exception('Excel Error')
+    file=open("下一個營業日.txt",mode="w",encoding="utf-8") #開啟檔案
+    file.write(NextWorkingDay+"\n") #撰寫檔案
+    file.close() #關閉檔案
+
         
 if __name__ == "__main__":
-    Whether_Work, InquiryWorkingDay = main()
-    print(Whether_Work, InquiryWorkingDay)
-    time.sleep(10)
-    input('Key Enter')
-    raise Exception ('Stop')
+    main()
+    time.sleep(2)
+    print('Done. 終わり！')
+    
     
 
 
