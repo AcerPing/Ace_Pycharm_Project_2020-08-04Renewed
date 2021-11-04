@@ -3,6 +3,7 @@ import sys
 import time
 import traceback
 import xlrd
+import re
 
 # import datetime
 
@@ -147,16 +148,16 @@ def ExcelRead(filename, TargetSheetName, key_column):
         return ModuleObj
 
 # 主函式
-def main(runmode = '2'):
+def main():
     '''
     1. 當天是否為上班日
     2. 上一次上班日是什麼時候?
     3. 下一次上班日是什麼時候?
     '''
     # 參數設定
-
+    Custom_Err_Msg = ''
     # TODO: 設定讀取檔案的位置及表單資訊
-    File_Directory = r'D:\何哲平\RPA\工作日查詢' #D:\何哲平\RPA\工作日查詢
+    File_Directory = os.getcwd() #D:\何哲平\RPA\工作日查詢
     File_Name = r'工作日查詢.xls'
     FilePath = os.path.join(File_Directory, File_Name)
     SourceFilePath_Excel = FilePath
@@ -165,9 +166,9 @@ def main(runmode = '2'):
     if os.path.exists(SourceFilePath_Excel) == False: #檔案不存在
         PrintText = 'File is not existed. Please check the path of the file.'
         print(PrintText)
-        Custom_Err_Msg = PrintText
+        Custom_Err_Msg += PrintText
         print('Process Error, Process End. \n\n Error Details:\n' + Custom_Err_Msg)
-        raise Exception ('File Not Existed Error')
+        raise Exception ('File Not Existed Error', Custom_Err_Msg)
     
     SourceFile_ExcelSheet = 'reorganize'
     KeyColumn =  {'本日':'本日',
@@ -192,10 +193,10 @@ def main(runmode = '2'):
     MaxRow = ModuleObj['max_row']
     MaxCol = ModuleObj['max_col']
     if len(Excel_todo_list) == 0:
-        Custom_Err_Msg = 'No Data found in Excel. Pleaser Check Your Report.'
+        Custom_Err_Msg += 'No Data found in Excel. Pleaser Check Your Report.'
         print('Excel Error')
         print('Process Error, Process End. \n\n Error Details:\n' + Custom_Err_Msg)
-        raise Exception('Excel Error')
+        raise Exception('Excel Error', Custom_Err_Msg)
 
     today = time.strftime("%Y/%m/%d", time.localtime()) # 今天日期
 
@@ -206,10 +207,10 @@ def main(runmode = '2'):
     for i in range(0, len(Excel_todo_list)):
         if Excel_todo_list[i][key_column_id['本日']] == today: break #抓取今日日期的index
     else: 
-        Custom_Err_Msg = '今天日期沒有在Excel Report'
+        Custom_Err_Msg += '今天日期沒有在Excel Report'
         print('Excel Error')
         print('Process Error, Process End. \n\n Error Details:\n' + Custom_Err_Msg)
-        raise Exception('Excel Error')
+        raise Exception('Excel Error', Custom_Err_Msg)
     
     if ConvertNum(Excel_todo_list[i][key_column_id['營業']]) != 1: 
         print('不用上班')
@@ -229,10 +230,11 @@ def main(runmode = '2'):
             PreviousWorkingDay = Excel_todo_list[ii][key_column_id['本日']]
             break
     else: 
-        Custom_Err_Msg = '沒有上一個營業日'
+        Custom_Err_Msg += '沒有上一個營業日'
         print('Excel Error')
         print('Process Error, Process End. \n\n Error Details:\n' + Custom_Err_Msg)
-        raise Exception('Excel Error')
+        raise Exception('Excel Error', Custom_Err_Msg)
+    
     file=open("上一個營業日.txt",mode="w",encoding="utf-8") #開啟檔案
     file.write(PreviousWorkingDay+"\n") #撰寫檔案
     file.close() #關閉檔案
@@ -243,19 +245,74 @@ def main(runmode = '2'):
             NextWorkingDay = Excel_todo_list[ii][key_column_id['本日']]
             break
     else: 
-        Custom_Err_Msg = '沒有下一個營業日'
+        Custom_Err_Msg += '沒有下一個營業日'
         print('Excel Error')
         print('Process Error, Process End. \n\n Error Details:\n' + Custom_Err_Msg)
-        raise Exception('Excel Error')
+        raise Exception('Excel Error', Custom_Err_Msg)
+    
     file=open("下一個營業日.txt",mode="w",encoding="utf-8") #開啟檔案
     file.write(NextWorkingDay+"\n") #撰寫檔案
     file.close() #關閉檔案
 
+def check_result():
+    '''
+    檢查寫入的結果檔是否是否符合格式
+    '''
+    Custom_Err_Msg = ''
+    # TODO: 讀取 上一個營業日 檔案
+    with open("上一個營業日.txt",mode="r",encoding="utf-8") as file:
+        datum=file.read()
+    # print(datum)
+    o = re.fullmatch("^[0-9]{4}.[0-9]{2}.[0-9]{2}\n$", datum)
+    # print(o)
+    if o != None: print('True')
+    else:
+        Custom_Err_Msg += '上一個營業日 結果報表錯誤'
+        print('Excel Error')
+        print('Process Error, Process End. \n\n Error Details:\n' + Custom_Err_Msg)
+        raise Exception('結果報表 Error', Custom_Err_Msg)
+    
+    # TODO: 讀取 下一個營業日 檔案
+    with open("下一個營業日.txt",mode="r",encoding="utf-8") as file:
+        datum=file.read()
+    # print(datum)
+    o = re.fullmatch("^[0-9]{4}/[0-9]{2}/[0-9]{2}\n$", datum)
+    # print(o)
+    if o != None: print('True')
+    else:
+        Custom_Err_Msg += '下一個營業日 結果報表錯誤'
+        print('Excel Error')
+        print('Process Error, Process End. \n\n Error Details:\n' + Custom_Err_Msg)
+        raise Exception('結果報表 Error', Custom_Err_Msg)
+
         
 if __name__ == "__main__":
-    main()
-    time.sleep(2)
-    print('Done. 終わり！')
+    
+    # TODO: 執行，將結果寫入txt
+    try:
+        main()
+        time.sleep(2)
+        print('Done. 終わり！')
+    except:
+        error_message = sys.exc_info() #取得Call Stack
+        with open("Error_Log.txt",mode="w",encoding="utf-8") as file:
+            file.write(str(error_message)+'\n')
+        input('Please "Key Enter" to continue the process.')
+        sys.exit(1)
+
+    # TODO: 執行，將結果寫入txt
+    try:
+        check_result()
+    except:
+        error_message = sys.exc_info() #取得Call Stack
+        print(error_message)
+        with open("Error_Log.txt",mode="w",encoding="utf-8") as file:
+            file.write(str(error_message)+'\n')
+        input('Please "Key Enter" to continue the process.')
+        sys.exit(1)
+        
+
+    
     
     
 
