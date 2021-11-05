@@ -224,7 +224,7 @@ def main():
     file.close() #關閉檔案
     
     # TODO: 2. 上一次上班日是什麼時候?
-    for ii in range(i-1, 0, -1):
+    for ii in range(i-1, -1, -1):
         if ConvertNum(Excel_todo_list[ii][key_column_id['營業']]) ==  1 : 
             PreviousWorkingDay = Excel_todo_list[ii][key_column_id['本日']]
             break
@@ -239,7 +239,7 @@ def main():
     file.close() #關閉檔案
     
     # TODO: 3. 下一次上班日是什麼時候?
-    for ii in range(i+1, len(Excel_todo_list)-1):
+    for ii in range(i+1, len(Excel_todo_list)):
         if ConvertNum(Excel_todo_list[ii][key_column_id['營業']]) ==  1 : 
             NextWorkingDay = Excel_todo_list[ii][key_column_id['本日']]
             break
