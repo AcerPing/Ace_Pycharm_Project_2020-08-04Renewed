@@ -147,6 +147,18 @@ def ExcelRead(filename, TargetSheetName, key_column):
         ModuleObj['Error']['e_funcName'] = lastCallStack[2] #取得發生的函數名稱
         return ModuleObj
 
+# Download Excel
+def download_excel():
+    '''
+    下載工作日查詢.xls
+    '''
+    from urllib.request import urlretrieve 
+    import Download_Website
+    Excel_Path = Download_Website.Download_Website #下載網址
+    save_path = os.getcwd()
+    urlretrieve(Excel_Path, save_path) #利用urlretrieve下載檔案
+    return True
+    
 # 主函式
 def main():
     '''
@@ -301,6 +313,9 @@ def check_result():
         
 if __name__ == "__main__":
     
+    # TODO: 下載 "工作日查詢.xls" 報表
+    # download_excel()
+    
     # TODO: 執行，將結果寫入txt
     try:
         main()
@@ -313,7 +328,7 @@ if __name__ == "__main__":
         input('Please "Key Enter" to continue the process.')
         sys.exit(1)
 
-    # TODO: 執行，將結果寫入txt
+    # TODO: 執行，檢查 結果檔
     try:
         check_result()
     except:

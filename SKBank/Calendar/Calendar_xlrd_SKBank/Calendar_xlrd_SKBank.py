@@ -313,7 +313,7 @@ if __name__ == "__main__":
         input('Please "Key Enter" to continue the process.')
         sys.exit(1)
 
-    # TODO: 執行，將結果寫入txt
+    # TODO: 執行，檢查 結果檔
     try:
         check_result()
     except:
