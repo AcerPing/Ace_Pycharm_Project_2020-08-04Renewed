@@ -244,8 +244,7 @@ def main(TxtName):
     if Whether_Work != 1: 
         print('不用上班')
         with open(TxtName, mode="w", encoding="utf-8") as file: file.write(str('今天不是營業日、不用上班！').strip()+'\n')
-        time.sleep(3)
-        sys.exit()
+        return None
     else: 
         print('Go to Work.')
     
@@ -255,7 +254,7 @@ def main(TxtName):
         if ConvertNum(Excel_todo_list[ii][key_column_id['營業']]) ==  1 : 
             PreviousWorkingDay = Excel_todo_list[ii][key_column_id['本日']]
             list_month_n.append(PreviousWorkingDay)
-        if ConvertNum(PreviousWorkingDay.split('/')[1]) != ConvertNum(this_month): break
+            if ConvertNum(PreviousWorkingDay.split('/')[1]) != ConvertNum(this_month): break
     else: 
         Custom_Err_Msg += '日期錯誤，沒有前月份的日期'
         print('Excel Error')
@@ -285,102 +284,3 @@ if __name__ == "__main__":
         # input('Please "Key Enter" to continue the process.')
         time.sleep(5)
         sys.exit(1)
-
-
-    
-    
-    
-
-
-
-
-
-
-# import pandas as pd
-# def calendar (FilePath, sheet_name, runmode=2, n=1):
-#     '''
-#     1. 當天是否為上班日
-#     2. 上一次上班日是什麼時候?
-#     '''
-#     DataFrame_Calendar = pd.read_excel(FilePath, sheet_name) # 讀取工作日Excel報表
-#     # print(DataFrame_Calendar)
-
-#     # TODO: 1. 當天是否為上班日
-#     if runmode == 1 :
-#         today = time.strftime("%Y/%m/%d", time.localtime())
-#         DataFrame_Whether_Work = DataFrame_Calendar[DataFrame_Calendar['本日'] == today]
-#         if DataFrame_Whether_Work['營業'].iloc[0] != 1: 
-#             print('不用上班')
-#             Whether_Work = '不用上班'
-#         else: 
-#             print('Go to Work.')
-#             Whether_Work = 'Go to Work.'
-#         return Whether_Work, None
-    
-#     # TODO: 2. 上一次上班日是什麼時候?
-#     elif runmode == 2 or runmode == 3 :
-#         DataFrame_PreviousWorkingDay = DataFrame_Calendar[DataFrame_Calendar['營業'] == 1] # 篩選出只有營業的日期
-#         list_WorkingDay = list(DataFrame_PreviousWorkingDay['本日']) # 取出所有營業的日期
-#         # today = pd.Timestamp(datetime.datetime.strftime(datetime.datetime.now(), '%Y%m%d')) # 若格式為時間，改用Timestamp
-#         today = time.strftime("%Y/%m/%d", time.localtime())
-#         # print(list_WorkingDay)
-#         if today not in list_WorkingDay: #若今天日期不再營業日期list中 
-#             Whether_Work = '不用上班'
-#             return Whether_Work, None
-#         Current_Index = list_WorkingDay.index(today)
-#         # Current_Index = DataFrame_PreviousWorkingDay[DataFrame_PreviousWorkingDay['本期'] == today].index
-#         # print(int(Current_Index))
-#         if runmode == 2 :
-#             PreviousWorkingDay = list_WorkingDay[Current_Index-n] # 取出前n次的營業日期
-#             Whether_Work = 'Go to Work.'
-#             return Whether_Work, PreviousWorkingDay
-#         elif runmode == 3 :
-#             NextWorkingDay = list_WorkingDay[Current_Index+n] # 取出前n次的營業日期
-#             Whether_Work = 'Go to Work.'
-#             return Whether_Work, NextWorkingDay
-
-
-# #主流程
-# if __name__ == "__main__":
-#     # 參數設定
-#     runmode = ''
-#     while runmode == '' or (len(runmode) != 1 and (runmode != '1' and runmode != '2' and runmode != '3')): 
-#         runmode = input('請輸入執行模式，\n1為查詢當天是否為工作日，2為查詢前一個工作日，3為查詢後一個工作日，\n輸入模式：')
-#     print('執行模式: ' + str(runmode))
-#     runmode = int(runmode) # 將runmode轉換為數字型式，後續傳如def
-#     # 路徑設定
-#     File_Directory = r'D:\哲平\新光銀行\RPA\Calendar'
-#     File_Name = r'工作日查詢.xls'
-#     FilePath = os.path.join(File_Directory, File_Name)
-#     # print(FilePath)
-#     sheet_name='reorganize'
-#     Whether_Work, InquiryWorkingDay = calendar (FilePath=FilePath, sheet_name=sheet_name, runmode=runmode)
-#     print(Whether_Work, InquiryWorkingDay)
-
-
-    # # TODO: 1. 當天是否為上班日
-    # file=open("今天是否上班.txt",mode="w",encoding="utf-8") #開啟檔案
-    # file.write(str(Whether_Work).strip()+"\n") #撰寫檔案
-    # file.close() #關閉檔案
-    
-       
-    # file=open("上一個營業日.txt",mode="w",encoding="utf-8") #開啟檔案
-    # file.write(str(PreviousWorkingDay).strip()+"\n") #撰寫檔案
-    # file.close() #關閉檔案
-    
-    # # TODO: 3. 下一次上班日是什麼時候?
-    # for ii in range(i+1, len(Excel_todo_list)):
-    #     if ConvertNum(Excel_todo_list[ii][key_column_id['營業']]) ==  1 : 
-    #         NextWorkingDay = Excel_todo_list[ii][key_column_id['本日']]
-    #         break
-    # else: 
-    #     Custom_Err_Msg += '沒有下一個營業日'
-    #     print('Excel Error')
-    #     print('Process Error, Process End. \n\n Error Details:\n' + Custom_Err_Msg)
-    #     raise Exception('Excel Error', Custom_Err_Msg)
-    
-    # file=open("下一個營業日.txt",mode="w",encoding="utf-8") #開啟檔案
-    # file.write(str(NextWorkingDay).strip()+"\n") #撰寫檔案
-    # file.close() #關閉檔案
-        
-

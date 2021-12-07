@@ -272,8 +272,9 @@ def main(TxtName):
     if Whether_Work != 1: 
         print('不用上班')
         with open(TxtName, mode="w", encoding="utf-8") as file: file.write(str('今天不是營業日、不用上班！').strip()+'\n')
-        time.sleep(3)
-        sys.exit()
+        # time.sleep(3)
+        # sys.exit()
+        return None
     else: 
         print('Go to Work.')
     
@@ -283,7 +284,7 @@ def main(TxtName):
         if ConvertNum(Excel_todo_list[ii][key_column_id['營業']]) ==  1 : 
             PreviousWorkingDay = Excel_todo_list[ii][key_column_id['本日']]
             list_month_n.append(PreviousWorkingDay)
-        if ConvertNum(PreviousWorkingDay.split('/')[1]) != ConvertNum(this_month): break
+            if ConvertNum(PreviousWorkingDay.split('/')[1]) != ConvertNum(this_month): break
     else: 
         Custom_Err_Msg += '日期錯誤，沒有前月份的日期'
         print('Excel Error')
@@ -322,7 +323,7 @@ if __name__ == "__main__":
     #TODO: 建立Result資料夾
     if not ((os.path.exists('Result')) and (os.path.isdir('Result'))): os.mkdir('Result')
     TxtName = 'Result\營業日判斷.txt'
-    
+
     # TODO: 執行，將結果寫入txt
     try:
         main(TxtName=TxtName)
