@@ -315,9 +315,10 @@ if __name__ == "__main__":
     
     # TODO: 下載 "工作日查詢.xls" 報表
     # download_excel()
-    
+
     # TODO: 執行，將結果寫入txt
     try:
+        if ((os.path.exists('Error_Log.txt')) and (os.path.isfile('Error_Log.txt'))): os.remove('Error_Log.txt')
         main()
         time.sleep(1)
         print('Done. 終わり！')

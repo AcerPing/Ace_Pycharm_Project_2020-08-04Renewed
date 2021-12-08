@@ -15,8 +15,7 @@ def check_result():
     Custom_Err_Msg = ''
 
     # TODO: 讀取 今天是否上班 檔案
-    with open("今天是否上班.txt",mode="r",encoding="utf-8") as file:
-        datum=file.read()
+    with open("今天是否上班.txt",mode="r",encoding="utf-8") as file: datum=file.read()
     # print(datum)
     o = re.fullmatch("^[0-9]{1}\n$", datum)
     # print(o)
@@ -28,8 +27,7 @@ def check_result():
         raise Exception('結果報表 Error', Custom_Err_Msg)
 
     # TODO: 讀取 上一個營業日 檔案
-    with open("上一個營業日.txt",mode="r",encoding="utf-8") as file:
-        datum=file.read()
+    with open("上一個營業日.txt",mode="r",encoding="utf-8") as file: datum=file.read()
     # print(datum)
     o = re.fullmatch("^[0-9]{4}.[0-9]{2}.[0-9]{2}\n$", datum)
     # print(o)
@@ -41,8 +39,7 @@ def check_result():
         raise Exception('結果報表 Error', Custom_Err_Msg)
     
     # TODO: 讀取 下一個營業日 檔案
-    with open("下一個營業日.txt",mode="r",encoding="utf-8") as file:
-        datum=file.read()
+    with open("下一個營業日.txt",mode="r",encoding="utf-8") as file: datum=file.read()
     # print(datum)
     o = re.fullmatch("^[0-9]{4}/[0-9]{2}/[0-9]{2}\n$", datum)
     # print(o)
@@ -68,18 +65,22 @@ def calendar_pandas (FilePath, sheet_name, n=1):
 
     # TODO: 1. 當天是否為上班日
     DataFrame_Whether_Work = DataFrame_Calendar[DataFrame_Calendar['本日'] == today]
-    
+
     #TODO: 檢查報表是否有今天日期 -> 是否有成功更新
     if DataFrame_Whether_Work.empty:
         Custom_Err_Msg += '今天日期沒有在Excel Report'
         print('Excel Error')
         print('Process Error, Process End. \n\n Error Details:\n' + Custom_Err_Msg)
         raise Exception('Excel Error', Custom_Err_Msg)
+    
+    elif len(DataFrame_Whether_Work) >= 2: 
+        Custom_Err_Msg += '今天日期在Excel Report中出現2次以上.'
+        print('Excel Error')
+        print('Process Error, Process End. \n\n Error Details:\n' + Custom_Err_Msg)
+        raise Exception('Excel Error', Custom_Err_Msg)
 
-    if DataFrame_Whether_Work['營業'].iloc[0] != 1: 
-        print('不用上班')
-    else: 
-        print('Go to Work.')
+    if DataFrame_Whether_Work['營業'].iloc[0] != 1: print('不用上班')
+    else: print('Go to Work.')
 
     Whether_Work = DataFrame_Whether_Work['營業'].iloc[0]
     file=open("今天是否上班.txt",mode="w",encoding="utf-8") #開啟檔案
