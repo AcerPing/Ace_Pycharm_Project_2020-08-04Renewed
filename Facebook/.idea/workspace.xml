@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2d66857-e69f-42c1-a90d-041d5f5135d9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FBrobot-mayorLin.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/FBrobot-mayorLin.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WebsiteBug/doodles/1/holidays-2020-eastern-europe-day-2-6753651837108255-law.gif" beforeDir="false" afterPath="$PROJECT_DIR$/../WebsiteBug/doodles/1/holidays-2020-eastern-europe-day-2-6753651837108255-law.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Django_Project/.idea/dictionaries/Ace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_Project/account_project/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_Project/account_project/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_Project/app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_Project/app/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_Project/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_Project/app/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Django_Project/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/../Django_Project/db.sqlite3" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,7 +46,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -56,6 +57,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="ProjectViewState">

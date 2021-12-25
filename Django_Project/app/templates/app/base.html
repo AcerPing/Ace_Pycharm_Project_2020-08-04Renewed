@@ -22,7 +22,15 @@
   <body>
   <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
     <nav class="navbar navbar-inverse navbar-fixed-top font-center">
-        <center><a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/">何哲平的記帳本</a></center>
+        <center>
+          <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/">
+            {% if user %}
+              {{user}}的記帳本
+            {% else %}
+              何哲平的記帳本
+            {% endif %}
+          </a>
+        </center>
     </nav>
      <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
@@ -31,19 +39,16 @@
      </div>
   </header>
   {% block content %} {% endblock %}
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-      <script
-      src="https://code.jquery.com/jquery-3.6.0.min.js"
-      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-      crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-        <script>
-            $(function(){
-                $('#datepicker1').datepicker({
-                    format:'yyyy-mm-dd'
-                });
-            })
-        </script>
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+  <script>
+      $(function(){
+          $('#datepicker1').datepicker({
+              format:'yyyy-mm-dd'
+          });
+      })
+  </script>
   </body>
 </html>

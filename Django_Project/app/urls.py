@@ -26,7 +26,7 @@ $ : 以什麼為結尾
 '''
 from django.conf.urls import url
 from django.contrib import admin
-from app import views
+from . import views  # from app import views
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
@@ -38,4 +38,4 @@ urlpatterns = [
     url(r'^delete_category/(?P<category>\w+)', views.deleteCategory),
     url(r'^add_record$', views.addRecord),
     url(r'^delete_record$', views.deleteRecord),
-    ]
+]

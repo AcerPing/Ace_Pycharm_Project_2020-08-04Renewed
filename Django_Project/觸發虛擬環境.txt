@@ -23,3 +23,7 @@ python manage.py migrate app [migrate version]
 Username: admin
 密碼: DataBase0805
 E-mail: acer0805@hotmail.com
+
+Username: Acer
+密碼: DBSData0805
+E-mail: acer0805@hotmail.com
