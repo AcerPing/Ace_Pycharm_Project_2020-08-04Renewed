@@ -8,7 +8,7 @@ importlib-metadata==3.1.0
 itsdangerous==1.1.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
-pipenv==2020.11.15
+pipenv==2022.1.8
 PyMySQL==0.10.1
 six==1.15.0
 virtualenv==20.2.1
