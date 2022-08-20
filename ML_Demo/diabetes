@@ -1,0 +1,33 @@
+digraph Tree {
+node [shape=box, style="filled, rounded", color="black", fontname=helvetica] ;
+edge [fontname=helvetica] ;
+0 [label=<s5 &le; -0.004<br/>mse = 5875.065<br/>samples = 397<br/>value = 152.373>, fillcolor="#f5cfb3"] ;
+1 [label=<bmi &le; 0.006<br/>mse = 2987.924<br/>samples = 197<br/>value = 109.071>, fillcolor="#f9e3d4"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label=<s3 &le; 0.021<br/>mse = 2173.386<br/>samples = 153<br/>value = 96.667>, fillcolor="#fbe9dd"] ;
+1 -> 2 ;
+3 [label="(...)", fillcolor="#C0C0C0"] ;
+2 -> 3 ;
+10 [label="(...)", fillcolor="#C0C0C0"] ;
+2 -> 10 ;
+17 [label=<bp &le; 0.061<br/>mse = 3424.754<br/>samples = 44<br/>value = 152.205>, fillcolor="#f5cfb3"] ;
+1 -> 17 ;
+18 [label="(...)", fillcolor="#C0C0C0"] ;
+17 -> 18 ;
+23 [label="(...)", fillcolor="#C0C0C0"] ;
+17 -> 23 ;
+30 [label=<bmi &le; 0.015<br/>mse = 5052.774<br/>samples = 200<br/>value = 195.025>, fillcolor="#f1bb93"] ;
+0 -> 30 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+31 [label=<bmi &le; -0.022<br/>mse = 4122.104<br/>samples = 102<br/>value = 163.118>, fillcolor="#f4caab"] ;
+30 -> 31 ;
+32 [label="(...)", fillcolor="#C0C0C0"] ;
+31 -> 32 ;
+39 [label="(...)", fillcolor="#C0C0C0"] ;
+31 -> 39 ;
+46 [label=<bmi &le; 0.069<br/>mse = 3858.914<br/>samples = 98<br/>value = 228.235>, fillcolor="#eeab7b"] ;
+30 -> 46 ;
+47 [label="(...)", fillcolor="#C0C0C0"] ;
+46 -> 47 ;
+54 [label="(...)", fillcolor="#C0C0C0"] ;
+46 -> 54 ;
+}
